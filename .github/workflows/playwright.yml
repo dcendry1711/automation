@@ -12,24 +12,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      # 1️⃣ Pobranie kodu z repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      # 2️⃣ Uruchomienie oficjalnej akcji Playwright
+      - name: Run Playwright Tests
+        uses: microsoft/playwright-github-action@v1
         with:
-          node-version: 24
+          run: npx playwright test
+          report: true  # generuje raport HTML/JSON
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
-
-      - name: Run tests
-        run: npx playwright test
-
-      - name: Upload report
+      # 3️⃣ Upload raportu jako artifact
+      - name: Upload Playwright report
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
